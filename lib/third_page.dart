@@ -2,22 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tutorial_getx/controller/list_controller.dart';
 import 'package:tutorial_getx/controller/tap_controller.dart';
-import 'package:tutorial_getx/first_page.dart';
-import 'package:tutorial_getx/second_page.dart';
+import 'package:tutorial_getx/my_home_page.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class ThirdPage extends StatelessWidget {
+  const ThirdPage({super.key});
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    TapController controller = Get.put(TapController());
-
+    // TapController controller = Get.find();
+    ListController listController = Get.put(ListController());
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -25,33 +20,51 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //container ini untuk nampilin hsl angka, yg diklik
-            GetBuilder<TapController>(
-              builder: (_) {
-                return Container(
-                  margin: EdgeInsets.all(10),
-                  height: 100,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Color(0xff89dad0),
-                  ),
-                  child: Center(
-                    child: Text(
-                      controller.x.toString(),
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
+            Obx(
+              () => Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    height: 100,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color(0xff89dad0),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "total Value = " + Get.find<TapController>().z.toString(),
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
-                );
-              },
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    height: 100,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color(0xff89dad0),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Y Value = " + Get.find<TapController>().y.toString(),
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            //container untuk tombol "TAB"
             GestureDetector(
               onTap: () {
-                controller.increaseX();
+                Get.find<TapController>().increaseY();
               },
               child: Container(
                 margin: EdgeInsets.all(20),
@@ -63,19 +76,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 child: Center(
                   child: Text(
-                    'tap',
+                    "X Value = " + Get.find<TapController>().x.toString(),
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ),
               ),
             ),
-            //Go To First Pagee...
             GestureDetector(
               onTap: () {
-                Get.to(()=> FirstPage());
+                Get.find<TapController>().increaseY();
               },
               child: Container(
                 margin: EdgeInsets.all(20),
@@ -87,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 child: Center(
                   child: Text(
-                    'GO TO FIRST PAGE',
+                    "Increase Y ",
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.white,
@@ -96,10 +108,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            //Go To Second Page
+            //=======================
+            //=======================================
             GestureDetector(
               onTap: () {
-                Get.to(()=> SecondPage());
+                Get.find<ListController>().setValues(Get.find<TapController>().z);
               },
               child: Container(
                 margin: EdgeInsets.all(20),
@@ -111,17 +124,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 child: Center(
                   child: Text(
-                    'Second Page',
+                    "Save Total  = ",
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ),
               ),
             ),
-            //
-           
           ],
         ),
       ),
